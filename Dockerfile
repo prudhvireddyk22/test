@@ -1,0 +1,4 @@
+FROM Ubuntu:latest
+
+COPY . .
+
