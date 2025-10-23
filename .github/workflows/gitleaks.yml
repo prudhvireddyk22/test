@@ -14,3 +14,9 @@ jobs:
       uses: gitleaks/gitleaks-action@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Required for reporting
+
+    - name: Run Trivy vulnerability scan
+      uses: aquasecurity/trivy-action@master
+      with:
+          # Specify the target to scan (e.g., 'fs' for filesystem, 'image' for a container image)
+        scan-type: 'fs'     
