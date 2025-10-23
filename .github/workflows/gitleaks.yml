@@ -13,20 +13,30 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    # - name: Run Gitleaks
-    #   uses: gitleaks/gitleaks-action@v2
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Required for reporting
+    - name: Run Gitleaks
+      uses: gitleaks/gitleaks-action@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Required for reporting
    
     - name: Build and tag Docker image
       run: |
           # Build the Docker image, tagging it with the repository name and commit SHA
           docker build -t nginx:test .
 
-    - name: Run Trivy vulnerability scan
+    - name: Run Trivy vulnerability scan for docker image
       uses: aquasecurity/trivy-action@master
       with:
           # Specify the target to scan (e.g., 'fs' for filesystem, 'image' for a container image)
         scan-type: 'image'
         image-ref: 'nginx:test' 
+        exit-code: 1
+        severity: 'CRITICAL,HIGH' 
+
+    - name: Run Trivy vulnerability scan for filesystem
+      uses: aquasecurity/trivy-action@master
+      with:
+          # Specify the target to scan (e.g., 'fs' for filesystem, 'image' for a container image)
+        scan-type: 'fs'
+        exit-code: 1
+        severity: 'CRITICAL,HIGH'     
      
