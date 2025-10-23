@@ -23,14 +23,14 @@ jobs:
           # Build the Docker image, tagging it with the repository name and commit SHA
           docker build -t nginx:test .
 
-    # - name: Run Trivy vulnerability scan for docker image
-    #   uses: aquasecurity/trivy-action@master
-    #   with:
-    #       # Specify the target to scan (e.g., 'fs' for filesystem, 'image' for a container image)
-    #     scan-type: 'image'
-    #     image-ref: 'nginx:test' 
-    #     exit-code: 1
-    #     severity: 'CRITICAL,HIGH' 
+    - name: Run Trivy vulnerability scan for docker image
+      uses: aquasecurity/trivy-action@master
+      with:
+          # Specify the target to scan (e.g., 'fs' for filesystem, 'image' for a container image)
+        scan-type: 'image'
+        image-ref: 'nginx:test' 
+        exit-code: 1
+        severity: 'CRITICAL,HIGH' 
 
     - name: Run Trivy vulnerability scan for filesystem
       uses: aquasecurity/trivy-action@master
